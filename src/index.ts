@@ -1,12 +1,11 @@
-import express from "express"
+import express from 'express';
+import convertRouter from './routes/convertRoutes';
 
-const app = express()
-const port = 3000
+const app = express();
+const port = 3000;
 
-app.get('/', (req, res) => {
-    res.send('Hello, world!')
-})
+app.use('/resize', convertRouter);
 
-app.listen(port, () => console.log(`server started at localhost: ${port}`))
+app.listen(port, () => console.log(`server started at localhost: ${port}`));
 
-export default app
+export default app;

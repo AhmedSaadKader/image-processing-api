@@ -28,6 +28,7 @@
       "outDir": "./build", //commented
       "strict": true,
       "noImplicitAny": true, //commented
+      "typeRoots": ["./types"] // commented
   },
   "exclude": ["node_modules", "tests"] // add this one
   }
@@ -62,7 +63,8 @@
       "prefer-const": "error"
     },
     "parserOptions": {
-      "ecmaVersion": 2017
+      "ecmaVersion": 2020,
+      "sourceType": "module"
     },
     "env": {
       "node": true,
@@ -141,9 +143,12 @@
 ## Setup Project Structure
 
 - create in root <routes>, <controllers>, <middleware>
+- transfer route to <routes>
+- transfer function route to <controllers>
 
-##
+## install Sharp and configure endpoint
 
-```
-
-```
+- npm i sharp
+- import sharp in controller
+- use fs createReadStream('image') to get image
+- stream.pipe(res) to view image in browser

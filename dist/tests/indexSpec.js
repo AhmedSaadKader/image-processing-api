@@ -14,10 +14,10 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const supertest_1 = __importDefault(require("supertest"));
 const index_1 = __importDefault(require("../index"));
-describe("GET API '/'", () => {
+describe("GET API '/resize'", () => {
     it("should return Hello, world!", () => __awaiter(void 0, void 0, void 0, function* () {
-        const res = yield (0, supertest_1.default)(index_1.default).get('/').send('Hello, world!');
+        const res = yield (0, supertest_1.default)(index_1.default).get('/resize').send('Hello, world!');
         expect(res.statusCode).toBe(200);
-        expect(res.text).toBe("Hello, world");
+        expect(res.text).toBe("Hello, world!");
     }));
 });
