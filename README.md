@@ -1,4 +1,4 @@
-# image-processing-api
+# Image-Processing-API
 
 # Step-by-step guide
 
@@ -71,9 +71,10 @@
   }
   ```
 
-### configure jamine
+### configure jasmine
 
-- npm i jasmine-spec-reporter
+- npm i jasmine-spec-
+- npm i --save-dev @types/prettier
 - in root : <spec> => <support> => jasmine.json for configuration
 - <src> => <tests> => indexSpec.ts
 - <tests> => <helpers> => reporter.ts
@@ -112,3 +113,37 @@
 
 - tsconfig.json file: add "spec" to "exclude"
 - add script for both building and testing: "test": "npm run build && npm run jasmine"
+
+### Configure express and initialize app
+
+- npm i express
+- npm i --save-dev @types/express
+- npm i --save-dev nodemon
+- npm i --save-dev ts-node
+- script "start": "nodemon src/index.ts"
+- initialize app and endpoint
+- create first test for this endpoint
+- npm i supertest --save-dev
+- npm i --save-dev @types/supertest
+- first test: /indexSpec.ts:
+  ```typescript
+  import request from 'supertest';
+  import app from '../index';
+  describe("GET API '/'", () => {
+    it('should return Hello, world!', async () => {
+      const res = await request(app).get('/').send('Hello, world!');
+      expect(res.statusCode).toBe(200);
+      expect(res.text).toBe('Hello, world!');
+    });
+  });
+  ```
+
+## Setup Project Structure
+
+- create in root <routes>, <controllers>, <middleware>
+
+##
+
+```
+
+```
