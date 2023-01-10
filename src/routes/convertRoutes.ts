@@ -3,6 +3,6 @@ import {resizeImage} from "../controllers/convertController"
 
 const router = Router()
 
-router.get('/', resizeImage)
+router.get('/:image', resizeImage)
 
 export default router

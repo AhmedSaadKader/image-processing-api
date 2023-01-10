@@ -1,7 +1,7 @@
 import express from "express"
 import sharp from "sharp"
 import * as fs from "fs"
-import logFiles from "../../images/full";
+import imageDetails from "../../images/full/imageDetails";
 
 export const resizeImage = async (req:express.Request, res:express.Response) => {
   if (req.query.width === '0' || req.query.height === '0'){
@@ -12,7 +12,7 @@ export const resizeImage = async (req:express.Request, res:express.Response) => 
   }
   if (req.query.width && req.query.height) {
     const {width, height} = req.query
-    const imagePath = logFiles()
+    const {imagePath} = await imageDetails(req.params.image)
     try {
       await sharp(imagePath).resize(+width,+height).toFile('./images/resized/output.jpg')
       const imageStream = fs.createReadStream('./images/resized/output.jpg')
@@ -20,7 +20,6 @@ export const resizeImage = async (req:express.Request, res:express.Response) => 
         res.sendStatus(404).send("image not found")
       })
       res.type('image/jpg')
-      // return readStream.pipe(resizedImage)
       return imageStream.pipe(res)
     } catch (error) {
       console.log(error)

@@ -145,11 +145,12 @@
 - create in root <routes>, <controllers>, <middleware>
 - transfer route to <routes>
 - transfer function route to <controllers>
-- create index folder for images and add images paths to it
+- create imageDetails file for images to get images paths from it
 
 ## install Sharp and configure endpoint
 
 - npm i sharp
 - import sharp in controller
+- sharp().resize().tofile() to resize and save file in local
 - use fs createReadStream('image') to get image
 - stream.pipe(res) to view image in browser
