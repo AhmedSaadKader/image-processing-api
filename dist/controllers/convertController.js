@@ -31,12 +31,21 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.resizeImage = void 0;
+const sharp_1 = __importDefault(require("sharp"));
 const fs = __importStar(require("fs"));
 const resizeImage = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const readStream = fs.createReadStream('./images/full/encenadaport.jpg');
-    // res.type('image/jpg')
-    readStream.pipe(res);
+    const { width, height } = req.query;
+    // const readStream = fs.createReadStream('./images/full/encenadaport.jpg')
+    // const resizedImage = 
+    yield (0, sharp_1.default)('./images/full/encenadaport.jpg').resize(500, 500).toFile('./images/resized/output.jpg');
+    const imageStream = fs.createReadStream('./images/resized/output.jpg');
+    res.type('image/jpg');
+    // return readStream.pipe(resizedImage)
+    imageStream.pipe(res);
 });
 exports.resizeImage = resizeImage;
