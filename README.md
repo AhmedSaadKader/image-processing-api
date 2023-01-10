@@ -145,6 +145,7 @@
 - create in root <routes>, <controllers>, <middleware>
 - transfer route to <routes>
 - transfer function route to <controllers>
+- create index folder for images and add images paths to it
 
 ## install Sharp and configure endpoint
 
