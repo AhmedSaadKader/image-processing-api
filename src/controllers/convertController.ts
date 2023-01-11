@@ -4,20 +4,16 @@ import * as fs from "fs"
 import imageDetails from "../../images/full/imageDetails";
 
 export const resizeImage = async (req:express.Request, res:express.Response) => {
-  if (req.query.width === '0' || req.query.height === '0'){
-    return res.send("height or width can not be 0")
-  }
-  if (!req.query.width || !req.query.height){
-    return res.send("Please provide width and height in url parameters")
-  }
   if (req.query.width && req.query.height) {
+    const imageNameWithExt = req.params.image
     const {width, height} = req.query
-    const {imagePath} = await imageDetails(req.params.image)
+    const {imagePath, imageName} = await imageDetails(imageNameWithExt)
+    const outputFile = `./images/resized/${imageName}${width}x${height}.jpg`
     try {
-      await sharp(imagePath).resize(+width,+height).toFile('./images/resized/output.jpg')
-      const imageStream = fs.createReadStream('./images/resized/output.jpg')
+      await sharp(imagePath).resize(+width,+height).toFile(outputFile)
+      const imageStream = fs.createReadStream(outputFile)
       imageStream.on('error', () => {
-        res.sendStatus(404).send("image not found")
+        return res.sendStatus(404).send("image not found")
       })
       res.type('image/jpg')
       return imageStream.pipe(res)

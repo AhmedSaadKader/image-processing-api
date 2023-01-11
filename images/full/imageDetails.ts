@@ -2,16 +2,15 @@ import * as fs from "fs"
 import * as path from "path"
 
 
-const imageDetails = async(imageName="fjord.jpg") => {
+const imageDetails = async(imageNameWithExt:string) => {
     const imageFilesNames = await fs.promises.readdir("./images/full")
-    let imagePath, imageFull
-    if (imageFilesNames.includes(imageName)){
-        imagePath= path.join(__dirname, imageName)
+    let imagePath, imageFull, imageName
+    if (imageFilesNames.includes(imageNameWithExt)){
+        imagePath= path.join(__dirname, imageNameWithExt)
         imageFull = path.parse(imagePath)
+        imageName = imageFull.name
     } 
-    console.log(imageFull)
-    console.log(imagePath)
-    return {imageFull, imagePath}
+    return {imageName, imagePath}
 }
 
 export default imageDetails

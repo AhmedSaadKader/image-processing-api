@@ -145,6 +145,7 @@
 - create in root <routes>, <controllers>, <middleware>
 - transfer route to <routes>
 - transfer function route to <controllers>
+- transfer query and params error handling to function in <middleware>
 - create imageDetails file for images to get images paths from it
 
 ## install Sharp and configure endpoint
@@ -154,3 +155,5 @@
 - sharp().resize().tofile() to resize and save file in local
 - use fs createReadStream('image') to get image
 - stream.pipe(res) to view image in browser
+- handle all errors in error middleware
+- add caching middleware to check if file exists before creating new one
