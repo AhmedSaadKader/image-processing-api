@@ -57,11 +57,6 @@ describe("GET API '/resize' check error response", () => {
     }));
 });
 describe("GET API '/resize'", () => {
-    it("should return hi", () => __awaiter(void 0, void 0, void 0, function* () {
-        const res = yield (0, supertest_1.default)(index_1.default).get('/').send('hi');
-        expect(res.statusCode).toBe(200);
-        expect(res.text).toBe('hi');
-    }));
     it("should return image after resizing", () => __awaiter(void 0, void 0, void 0, function* () {
         const res = yield (0, supertest_1.default)(index_1.default).get('/resize/palmtunnel.jpg?width=400&height=400');
         expect(res.statusCode).toBe(200);

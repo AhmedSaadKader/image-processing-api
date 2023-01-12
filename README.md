@@ -11,13 +11,36 @@
 
 ## Tutorial
 
-- To use the API
+- To use the API:
 
-## Examples
+  - install all dependencies
 
-## Glossary
+  ```javascript
+  npm i
+  ```
 
-# Step-by-step guide
+  - add images you want to resize to ./images/full directory
+  - use following script to compile typescript files to dist folder
+
+  ```javascript
+  npm run build
+  ```
+
+  - run api in localhost port 3000
+
+  ```javascript
+  node ./dist/src/.
+  ```
+
+  - open in browser `http://localhost:3000/resize/${image name}.jpg?width=200&height=200` and replace image name with the proper name in the images folder and don't forget to include the .jpg extension and include the width and height in the url query
+
+- To test the API:
+  - run
+  ```javascript
+  npm run test
+  ```
+
+# Creating the project Step-by-step
 
 ## initialize project
 
