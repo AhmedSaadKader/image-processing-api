@@ -1,13 +1,13 @@
-import express, { urlencoded } from 'express';
+import express from 'express';
 import convertRouter from './routes/convertRoutes';
 
 const app = express();
 const port = 3000;
 
-app.use(express.json())
+app.use(express.json());
 
-app.get("/", (req, res) => {
-    res.send(`- To use the API:
+app.get('/', (req, res) => {
+  res.send(`- To use the API:
   - install all dependencies
     npm i
   - add images you want to resize to ./images/full directory
@@ -15,8 +15,8 @@ app.get("/", (req, res) => {
     npm run build
   - run api in localhost port 3000 
   node ./dist/src/.
-  - open in browser`)
-})
+  - open in browser`);
+});
 
 app.use('/resize', convertRouter);
 

@@ -8,7 +8,7 @@ const convertRoutes_1 = __importDefault(require("./routes/convertRoutes"));
 const app = (0, express_1.default)();
 const port = 3000;
 app.use(express_1.default.json());
-app.get("/", (req, res) => {
+app.get('/', (req, res) => {
     res.send(`- To use the API:
   - install all dependencies
     npm i
