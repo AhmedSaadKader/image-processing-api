@@ -38,14 +38,27 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.resizeImage = void 0;
 const sharp_1 = __importDefault(require("sharp"));
 const fs = __importStar(require("fs"));
+const imageDetails_1 = __importDefault(require("../../images/imageDetails"));
 const resizeImage = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const { width, height } = req.query;
-    // const readStream = fs.createReadStream('./images/full/encenadaport.jpg')
-    // const resizedImage = 
-    yield (0, sharp_1.default)('./images/full/encenadaport.jpg').resize(500, 500).toFile('./images/resized/output.jpg');
-    const imageStream = fs.createReadStream('./images/resized/output.jpg');
-    res.type('image/jpg');
-    // return readStream.pipe(resizedImage)
-    imageStream.pipe(res);
+    if (req.query.width && req.query.height) {
+        const imageNameWithExt = req.params.image;
+        const { width, height } = req.query;
+        const image = yield (0, imageDetails_1.default)(imageNameWithExt);
+        const imageName = image === null || image === void 0 ? void 0 : image.imageName;
+        const imagePath = image === null || image === void 0 ? void 0 : image.imagePath;
+        const outputFile = `./images/resized/${imageName}${width}x${height}.jpg`;
+        try {
+            yield (0, sharp_1.default)(imagePath).resize(+width, +height).toFile(outputFile);
+            const imageStream = fs.createReadStream(outputFile);
+            imageStream.on('error', () => {
+                return res.sendStatus(404).send("image not found");
+            });
+            res.type('image/jpg');
+            return imageStream.pipe(res);
+        }
+        catch (error) {
+            return res.sendStatus(404).send("image not found");
+        }
+    }
 });
 exports.resizeImage = resizeImage;

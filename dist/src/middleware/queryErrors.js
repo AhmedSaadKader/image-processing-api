@@ -12,12 +12,25 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const supertest_1 = __importDefault(require("supertest"));
-const index_1 = __importDefault(require("../index"));
-describe("GET API '/resize'", () => {
-    it("should return Hello, world!", () => __awaiter(void 0, void 0, void 0, function* () {
-        const res = yield (0, supertest_1.default)(index_1.default).get('/resize').send('Hello, world!');
-        expect(res.statusCode).toBe(200);
-        expect(res.text).toBe("Hello, world!");
-    }));
+const imageDetails_1 = __importDefault(require("../../images/imageDetails"));
+const queryError = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const image = yield (0, imageDetails_1.default)(req.params.image);
+        if (image) {
+            if (!image.imageFilesNames.includes(req.params.image)) {
+                throw new Error("Please provide a valid image name");
+            }
+            if (req.query.width === '0' || req.query.height === '0') {
+                throw new Error('height or width can not be 0');
+            }
+            if (!req.query.width || !req.query.height) {
+                throw new Error('Please provide width and height in url parameters');
+            }
+            next();
+        }
+    }
+    catch (error) {
+        next(error);
+    }
 });
+exports.default = queryError;

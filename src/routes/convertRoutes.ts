@@ -5,8 +5,6 @@ import queryError from "../middleware/queryErrors";
 
 const router = Router()
 
-router.use(queryError)
-
-router.get('/:image',outputCheck, resizeImage)
+router.get('/:image',queryError ,outputCheck, resizeImage)
 
 export default router

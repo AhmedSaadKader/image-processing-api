@@ -157,3 +157,9 @@
 - stream.pipe(res) to view image in browser
 - handle all errors in error middleware
 - add caching middleware to check if file exists before creating new one
+
+# Extra:
+
+- make a home page in which you dynamically show images in images folder and add form for width and height to redirect to resize page with correct params
+- npm i ejs
+- in app.js => app.set('view engine', 'ejs')
