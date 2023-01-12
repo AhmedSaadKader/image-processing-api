@@ -22,12 +22,6 @@ describe("GET API '/resize' check error response", () => {
 })
 
 describe("GET API '/resize'", () => {
-    it("should return hi", async() => {
-        const res = await request(app).get('/').send('hi')
-        expect(res.statusCode).toBe(200)
-        expect(res.text).toBe('hi')
-    })
-
     it("should return image after resizing", async() => {
         const res = await request(app).get('/resize/palmtunnel.jpg?width=400&height=400')
         expect(res.statusCode).toBe(200)

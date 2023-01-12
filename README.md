@@ -1,5 +1,22 @@
 # Image-Processing-API
 
+## Overview
+
+- This image-processing API serves two purposes:
+
+  - As a simple placeholder API, where it allows you to place images into your frontend with the size set via URL parameters
+  - Used as a library to store images with the proper sizes to serve properly scaled versions of the images to reduce page load size
+
+- Rather than needing to resize and upload multiple copies of the same image to be used throughout your site, the API you create will handle resizing and serving stored images for you.
+
+## Tutorial
+
+- To use the API
+
+## Examples
+
+## Glossary
+
 # Step-by-step guide
 
 ## initialize project
@@ -158,8 +175,8 @@
 - handle all errors in error middleware
 - add caching middleware to check if file exists before creating new one
 
-# Extra:
+## tests
 
-- make a home page in which you dynamically show images in images folder and add form for width and height to redirect to resize page with correct params
-- npm i ejs
-- in app.js => app.set('view engine', 'ejs')
+- super tests
+- test errors
+- test right responses
