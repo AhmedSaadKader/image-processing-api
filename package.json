@@ -6,8 +6,8 @@
   "scripts": {
     "start": "nodemon src/index.ts",
     "build": "npx tsc",
-    "lint": "eslint src/index.ts",
-    "prettier": "prettier --config .prettierrc src/*.ts --write",
+    "lint": "eslint src/**/*.ts",
+    "prettier": "prettier --config .prettierrc --write src/**/*.ts ",
     "jasmine": "jasmine",
     "test": "npm run build && npm run jasmine"
   },
@@ -23,11 +23,14 @@
   },
   "homepage": "https://github.com/AhmedSaadKader/image-processing-api#readme",
   "devDependencies": {
+    "@types/eslint": "^8.4.10",
     "@types/express": "^4.17.15",
     "@types/jasmine": "^4.3.1",
     "@types/node": "^18.11.18",
     "@types/sharp": "^0.31.1",
     "@types/supertest": "^2.0.12",
+    "@typescript-eslint/eslint-plugin": "^5.48.1",
+    "@typescript-eslint/parser": "^5.48.1",
     "eslint": "^8.31.0",
     "eslint-config-prettier": "^8.6.0",
     "eslint-plugin-prettier": "^4.2.1",
