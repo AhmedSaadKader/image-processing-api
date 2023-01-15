@@ -46,8 +46,14 @@ describe('Converting image function', (): void => {
   it('resizes image and creates new file containing the resized image', async () => {
     const imageName = 'palmtunnel';
     const outputFile = `./images/resized/palmtunnel40x40.jpg`;
+    console.log(fs.existsSync(outputFile));
+    if (fs.existsSync(outputFile)) {
+      fs.unlink(outputFile, (err) => {
+        if (err) throw err;
+      });
+    }
     const { imagePath } = await imageDetails(imageName);
-    convertImage(imageName, imagePath, 40, 40);
+    await convertImage(imageName, imagePath, 40, 40);
     expect(fs.existsSync(outputFile)).toBeTruthy();
   });
 });

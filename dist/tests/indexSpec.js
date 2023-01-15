@@ -75,8 +75,15 @@ describe('Converting image function', () => {
     it('resizes image and creates new file containing the resized image', () => __awaiter(void 0, void 0, void 0, function* () {
         const imageName = 'palmtunnel';
         const outputFile = `./images/resized/palmtunnel40x40.jpg`;
+        console.log(fs.existsSync(outputFile));
+        if (fs.existsSync(outputFile)) {
+            fs.unlink(outputFile, (err) => {
+                if (err)
+                    throw err;
+            });
+        }
         const { imagePath } = yield (0, imageDetails_1.default)(imageName);
-        (0, convertingImage_1.default)(imageName, imagePath, 40, 40);
+        yield (0, convertingImage_1.default)(imageName, imagePath, 40, 40);
         expect(fs.existsSync(outputFile)).toBeTruthy();
     }));
 });
