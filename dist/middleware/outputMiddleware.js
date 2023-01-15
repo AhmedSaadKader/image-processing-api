@@ -35,30 +35,22 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.resizeImage = void 0;
-const sharp_1 = __importDefault(require("sharp"));
 const fs = __importStar(require("fs"));
-const imageDetails_1 = __importDefault(require("../../images/imageDetails"));
-const resizeImage = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    if (req.query.width && req.query.height) {
-        const imageNameWithExt = req.params.image;
-        const { width, height } = req.query;
-        const image = yield (0, imageDetails_1.default)(imageNameWithExt);
-        const imageName = image === null || image === void 0 ? void 0 : image.imageName;
-        const imagePath = image === null || image === void 0 ? void 0 : image.imagePath;
-        const outputFile = `./images/resized/${imageName}${width}x${height}.jpg`;
-        try {
-            yield (0, sharp_1.default)(imagePath).resize(+width, +height).toFile(outputFile);
-            const imageStream = fs.createReadStream(outputFile);
-            imageStream.on('error', () => {
-                return res.sendStatus(404).send("image not found");
-            });
-            res.type('image/jpg');
-            return imageStream.pipe(res);
-        }
-        catch (error) {
-            return res.sendStatus(404).send("image not found");
-        }
+const imageDetails_1 = __importDefault(require("../util/imageDetails"));
+const outputCheck = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    const providedImageName = req.params.image;
+    const { width, height } = req.query;
+    const image = yield (0, imageDetails_1.default)(providedImageName);
+    const imageName = image === null || image === void 0 ? void 0 : image.imageName;
+    const outputFile = `./images/resized/${imageName}${width}x${height}.jpg`;
+    if (fs.existsSync(outputFile)) {
+        const imageStream = fs.createReadStream(outputFile);
+        imageStream.on('error', () => {
+            return res.sendStatus(404).send('image not found');
+        });
+        res.type('image/jpg');
+        return imageStream.pipe(res);
     }
+    next();
 });
-exports.resizeImage = resizeImage;
+exports.default = outputCheck;

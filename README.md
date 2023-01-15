@@ -32,7 +32,7 @@
   node ./dist/src/.
   ```
 
-  - open in browser `http://localhost:3000/resize/${image name}.jpg?width=200&height=200` and replace image name with the proper name in the images folder and don't forget to include the .jpg extension and include the width and height in the url query
+  - open in browser `http://localhost:3000/resize/${image name}?width=200&height=200` and replace image name with the proper name in the images folder and include the width and height in the url query
 
 - To test the API:
   - run

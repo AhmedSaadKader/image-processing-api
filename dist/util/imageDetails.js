@@ -34,19 +34,30 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 const fs = __importStar(require("fs"));
 const path = __importStar(require("path"));
-const imageDetails = (imageNameWithExt) => __awaiter(void 0, void 0, void 0, function* () {
-    try {
-        const imageFilesNames = yield fs.promises.readdir("./images/full");
-        let imagePath, imageFull, imageName;
-        if (imageFilesNames.includes(imageNameWithExt)) {
-            imagePath = path.join('./images/full', imageNameWithExt);
-            imageFull = path.parse(imagePath);
-            imageName = imageFull.name;
-        }
-        return { imageName, imagePath, imageFilesNames };
+const imageDetails = (providedImageName) => __awaiter(void 0, void 0, void 0, function* () {
+    const imageFilesNames = yield fs.promises.readdir('./images/full');
+    let imageExists = false;
+    let imageNameWithExt = undefined;
+    if (imageFilesNames.includes(providedImageName)) {
+        imageNameWithExt = providedImageName;
+        imageExists = true;
     }
-    catch (error) {
-        console.log(error);
+    else {
+        imageFilesNames.forEach((name) => {
+            const nameWithoutExt = name.split('.').slice(0, -1).join('.');
+            if (nameWithoutExt === providedImageName) {
+                imageNameWithExt = name;
+                imageExists = true;
+                return;
+            }
+        });
     }
+    let imagePath, imageFull, imageName;
+    if (imageFilesNames.includes(imageNameWithExt)) {
+        imagePath = path.join('./images/full', imageNameWithExt);
+        imageFull = path.parse(imagePath);
+        imageName = imageFull.name;
+    }
+    return { imageName, imageExists, imagePath, imageFilesNames };
 });
 exports.default = imageDetails;

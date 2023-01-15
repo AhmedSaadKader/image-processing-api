@@ -12,16 +12,19 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const imageDetails_1 = __importDefault(require("../../images/imageDetails"));
+const imageDetails_1 = __importDefault(require("../util/imageDetails"));
 const queryError = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const image = yield (0, imageDetails_1.default)(req.params.image);
         if (image) {
-            if (!image.imageFilesNames.includes(req.params.image)) {
-                throw new Error("Please provide a valid image name");
+            if (!image.imageExists) {
+                throw new Error('Please provide a valid image name');
             }
-            if (req.query.width === '0' || req.query.height === '0') {
-                throw new Error('height or width can not be 0');
+            if (isNaN(Number(req.query.width)) || isNaN(Number(req.query.height))) {
+                throw new Error('Height and width must be in integer format and cannot be in text.');
+            }
+            if (Number(req.query.width) < 1 || Number(req.query.height) < 1) {
+                throw new Error('Height and width must be greater than 0');
             }
             if (!req.query.width || !req.query.height) {
                 throw new Error('Please provide width and height in url parameters');

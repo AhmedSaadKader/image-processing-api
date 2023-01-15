@@ -35,27 +35,12 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+const sharp_1 = __importDefault(require("sharp"));
 const fs = __importStar(require("fs"));
-const imageDetails_1 = __importDefault(require("../../images/imageDetails"));
-const outputCheck = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
-    const imageNameWithExt = req.params.image;
-    const { width, height } = req.query;
-    const image = yield (0, imageDetails_1.default)(imageNameWithExt);
-    const imageName = image === null || image === void 0 ? void 0 : image.imageName;
+const convertImage = (imageName, imagePath, width, height) => __awaiter(void 0, void 0, void 0, function* () {
     const outputFile = `./images/resized/${imageName}${width}x${height}.jpg`;
-    try {
-        if (fs.existsSync(outputFile)) {
-            const imageStream = fs.createReadStream(outputFile);
-            imageStream.on('error', () => {
-                return res.sendStatus(404).send("image not found");
-            });
-            res.type('image/jpg');
-            return imageStream.pipe(res);
-        }
-    }
-    catch (error) {
-        console.log(error);
-    }
-    next();
+    yield (0, sharp_1.default)(imagePath).resize(+width, +height).toFile(outputFile);
+    const imageStream = fs.createReadStream(outputFile);
+    return imageStream;
 });
-exports.default = outputCheck;
+exports.default = convertImage;

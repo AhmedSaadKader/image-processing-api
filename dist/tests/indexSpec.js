@@ -38,34 +38,45 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const supertest_1 = __importDefault(require("supertest"));
 const index_1 = __importDefault(require("../index"));
 const fs = __importStar(require("fs"));
+const convertingImage_1 = __importDefault(require("../util/convertingImage"));
+const imageDetails_1 = __importDefault(require("../util/imageDetails"));
 describe("GET API '/resize' check error response", () => {
-    it("should return error 404 when missing params", () => __awaiter(void 0, void 0, void 0, function* () {
+    it('should return error 500 when missing params', () => __awaiter(void 0, void 0, void 0, function* () {
         const res = yield (0, supertest_1.default)(index_1.default).get('/resize/?width=400&height=400');
-        expect(res.statusCode).toBe(404);
+        expect(res.statusCode).toBe(500);
     }));
-    it("should return error 500 when wrong image name", () => __awaiter(void 0, void 0, void 0, function* () {
+    it('should return error 500 when wrong image name', () => __awaiter(void 0, void 0, void 0, function* () {
         const res = yield (0, supertest_1.default)(index_1.default).get('/resize/p?width=400&height=400');
         expect(res.statusCode).toBe(500);
     }));
-    it("should return error 500 when missing height query", () => __awaiter(void 0, void 0, void 0, function* () {
+    it('should return error 500 when missing height query', () => __awaiter(void 0, void 0, void 0, function* () {
         const res = yield (0, supertest_1.default)(index_1.default).get('/resize/palmtunnel?width=400');
         expect(res.statusCode).toBe(500);
     }));
-    it("should return error 500 when height query is 0", () => __awaiter(void 0, void 0, void 0, function* () {
+    it('should return error 500 when height query is 0', () => __awaiter(void 0, void 0, void 0, function* () {
         const res = yield (0, supertest_1.default)(index_1.default).get('/resize/palmtunnel?width=400&height=0');
         expect(res.statusCode).toBe(500);
     }));
 });
 describe("GET API '/resize'", () => {
-    it("should return image after resizing", () => __awaiter(void 0, void 0, void 0, function* () {
+    it('should return image after resizing', () => __awaiter(void 0, void 0, void 0, function* () {
         const res = yield (0, supertest_1.default)(index_1.default).get('/resize/palmtunnel.jpg?width=400&height=400');
         expect(res.statusCode).toBe(200);
         expect(res.headers['content-type']).toBe('image/jpg');
     }));
-    it("should return a new image file in file system", () => __awaiter(void 0, void 0, void 0, function* () {
+    it('should return a new image file in file system', () => __awaiter(void 0, void 0, void 0, function* () {
         const res = yield (0, supertest_1.default)(index_1.default).get('/resize/palmtunnel.jpg?width=400&height=400');
         expect(res.statusCode).toBe(200);
         const outputFile = `./images/resized/palmtunnel400x400.jpg`;
+        expect(fs.existsSync(outputFile)).toBeTruthy();
+    }));
+});
+describe('Converting image function', () => {
+    it('resizes image and creates new file containing the resized image', () => __awaiter(void 0, void 0, void 0, function* () {
+        const imageName = 'palmtunnel';
+        const outputFile = `./images/resized/palmtunnel40x40.jpg`;
+        const { imagePath } = yield (0, imageDetails_1.default)(imageName);
+        (0, convertingImage_1.default)(imageName, imagePath, 40, 40);
         expect(fs.existsSync(outputFile)).toBeTruthy();
     }));
 });
